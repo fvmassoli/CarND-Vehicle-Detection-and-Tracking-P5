@@ -30,12 +30,16 @@ The goals / steps of this project are the following:
 
 #### 1-2. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-In order to properly extract HOG features I did several test. I got the best results by using all the channels in the YUV color space and following the suggestions from the lessons I used 9 HOG orientations, 8 pixels per cell and 2 cells per block. The chosen value for the parameter are shown in the cell 3 of the IPython notebook. 
+In order to properly extract HOG features I did several tests considering different color spaces and color channels, separately. I also tested different values for parameters such as pixels per cell and celss per block. 
+
+I got the best results by using all the channels in the YUV color space and following the suggestions from the lessons I used 9 HOG orientations, 8 pixels per cell and 2 cells per block. The chosen value for the parameter are shown in the cell 3 of the IPython notebook. 
 
 From cell 4 to cell 7 I implemented the code that extracts and normalize the feature vector of the images.
-The FeatureExtractor.py file contains the FeatureExtractor class. The class is used to extract features from images. In particular the  main method is get_features(). It relies upon calls to other three methods of the class: get_hog_features(), get_color_hist() and get_bin_spatial(). The get_features() then combines the return values from the previous three methods and returns the frature vector.
+The implementation of the methods used to exatrct the features is located into the FeatureExtractor.py that contains a class named FeatureExtractor.
 
-In order to avoid some bias fue to a major contribution from one of the previous components, ater the features concatenations I normalized the features and used the normalized feature vector in the remaining part of the project.
+In particular the "main" method of the class is get_features(). It relies upon the calls to other three methods of the class: get_hog_features(), get_color_hist() and get_bin_spatial(). The get_features() then combines the return values from the previous three methods and returns the feature vector of the image.
+
+In order to avoid some bias fue to a major contribution from one of the previous components, after the features concatenations I normalized the features and used the normalized feature vector in the remaining part of the project.
 
 Below there is an example of the HOG images extracted from a vehicle and non-vehicle input images.
 ![alt text][image1]
@@ -55,7 +59,10 @@ The training and test sets contains 70% and 30%, respectively, of the input imag
 #### Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
 In order to look into the portion of the image where a car is expexted to be I didn't consider the top 400 pixels and left 300 pixels of the image. That trick also makes the algorithm faster since it deals with fewer windows.
+
 Once I had the image ROI I considered all the possible 64x64 windows with 32x32 stride.
+
+The code used in order to select the ROI is implemented in the cell 10 and 11 of the IPython notebook.
 
 Below there is an example.
 
@@ -63,16 +70,18 @@ Below there is an example.
 ![alt text][image6]
 
 
-Then, for each window in above image, we predict if it is a vehicle image or not. If it is a vehicle image, we added to our list and draw end result on the image.
+Then, for each window in the above images, the algorithm predicts if it is a vehicle image or not. 
 
-The results are shown in figures below.
+The input image has been then resized few times and the previous procedure has been repeated on each image size. This allows to recognize vehicles of different sizes (i.e. vehicles that are closed or far away form us). Summing all the "positive" windows, the following output is produced (cell 14 of the notebook).
 
 ![alt text][image7]
 
 
-In order to decrease the number of false positives, I analysed the images using heat maps. The procedure is pretty straightforward. First I creaate a zero mask for the image. Then for each box found in the previous step I increased by one the value of the pixels in the mask. The final step is to apply a threshold to the mask. This procedure really helps the algortihm in reducing the probability of false positive.
+In order to decrease the number of false positives, I analysed the images using heat maps. The procedure is pretty straightforward. First I create a zero mask for the image. Then for each box found in the previous step I increased by one the value of the pixels in the mask. The final step is to apply a threshold to the mask. This procedure really helps the algortihm in reducing the probability of false positive.
 
-The final result is shown in picture below. In order to workout the previous procedure, the code is implemented in the add_heat() and apply_threshold() methods shows these procedures.
+At the end, I used scipy labels method to create final mask and take this labels as final bounding boxes. The bounding boxes are drawn on original images. 
+
+In order to workout the previous procedure, the code is implemented in the add_heat() and apply_threshold() methods located in the FeatureExtractor.py file.
 
 Below there is an example of the previous analysis.
 
@@ -86,7 +95,7 @@ Below there is an example of the previous analysis.
 
 ![Here's a link to the test video result][video1]
 
-Here's a [link to the project video result](./project_video_output.mp4)
+![Here's a link to the project video result][video3]
 
 
 ### Discussion
