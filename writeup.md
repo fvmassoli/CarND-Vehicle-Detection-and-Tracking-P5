@@ -85,6 +85,7 @@ Below there is an example of the previous analysis.
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 
 Here's a [link to the test video result](./test_video_output.mp4)
+
 Here's a [link to the project video result](./project_video_output.mp4)
 
 
@@ -92,7 +93,15 @@ Here's a [link to the project video result](./project_video_output.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-In the final step of the project I tried to average the search for cars by considering 20 images at a time. This is a strategy that can be improved even more by choosing the best number of frames to consider or by considering different thresholds vbalue for the heatmaps.
+In the final step of the project I tried to average the search for cars by considering 20 images at a time. This is a strategy that can be improved even more by choosing the best number of frames to consider or by considering different thresholds vbalue for the heatmaps. Indeed, by using 20 frames some false positives are introduced into the output video perhaps due to shadowing effects or other image features that when summed up go beyond the threshold and give rise to a false positive.
+
+The output from the averaged pipeline are showed below.
+
+Here's a [link to the test video result](./test_video_output_ave.mp4)
+
+Here's a [link to the project video result](./project_video_output_ave.mp4)
+
+
 
 
 
