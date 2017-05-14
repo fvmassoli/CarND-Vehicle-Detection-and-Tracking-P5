@@ -84,7 +84,7 @@ Below there is an example of the previous analysis.
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 
-Here's a [link to the test video result](./test_video_output.mp4)
+![Here's a link to the test video result][video1]
 
 Here's a [link to the project video result](./project_video_output.mp4)
 
