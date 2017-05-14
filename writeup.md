@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 [image4]: ./output_images/hog_non_vehicle_image.jpg
 [image5]: ./output_images/sliding_window_original_image.jpg
 [image6]: ./output_images/sliding_window_grid_image.jpg
-[image7]: ./output_images/reduced_false_image.jpg
+[image7]: ./output_images/reduced_false_positive_image.jpg
 [image8]: ./output_images/heatmap_image.jpg
 [image9]: ./output_images/reduced_false_from_heatmap.jpg
 [video1]: ./test_video_output.mp4
@@ -91,6 +91,9 @@ Here's a [link to the project video result](./project_video_output.mp4)
 ### Discussion
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+
+In the final step of the project I tried to average the search for cars by considering 20 images at a time. This is a strategy that can be improved even more by choosing the best number of frames to consider or by considering different thresholds vbalue for the heatmaps.
+
 
 
 
