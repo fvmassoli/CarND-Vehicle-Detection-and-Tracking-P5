@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 class FeatureExtractor(object):
-
+    @classmethod
     def get_features(self, image, spatial_size=(32, 32),
                         hist_bins=32, orient=9,
                         pix_per_cell=8, cell_per_block=2,
@@ -27,8 +27,7 @@ class FeatureExtractor(object):
         features.append(np.concatenate(file_features))
         return features
 
-
-
+    @classmethod
     def get_hog_features(self, img, orient, pix_per_cell, cell_per_block,
                         vis=False, feature_vec=True):
         hog_features = []
@@ -55,12 +54,12 @@ class FeatureExtractor(object):
         else:
             return hog_features
 
-
+    @classmethod
     def bin_spatial(self, img, size=(32, 32)):
         features = cv2.resize(img, size).ravel()
         return features
 
-
+    @classmethod
     def color_hist(self, img, nbins=32):
         channel1_hist = np.histogram(img[:,:,0], bins=nbins)
         channel2_hist = np.histogram(img[:,:,1], bins=nbins)
@@ -68,7 +67,7 @@ class FeatureExtractor(object):
         hist_features = np.concatenate((channel1_hist[0], channel2_hist[0], channel3_hist[0]))
         return hist_features
 
-
+    @classmethod
     def slide_window(self, img, x_start_stop=[None, None], y_start_stop=[None, None],
                     xy_window=(64, 64), xy_overlap=(0.5, 0.5)):
         if x_start_stop[0] == None:
@@ -98,7 +97,7 @@ class FeatureExtractor(object):
                 window_list.append(((startx, starty), (endx, endy)))
         return window_list
 
-
+    @classmethod
     def search_windows(self, img, windows, clf, scaler,
                     spatial_size=(32, 32), hist_bins=32,
                     hist_range=(0, 256), orient=9,
@@ -121,22 +120,19 @@ class FeatureExtractor(object):
                 on_windows.append(window)
         return on_windows
 
-
-
+    @classmethod
     def add_heat(self, img, bbox_list):
         heatmap = np.zeros_like(img[:,:,0])
         for box in bbox_list:
             heatmap[box[0][1]:box[1][1], box[0][0]:box[1][0]] += 1
         return heatmap
 
-
-
+    @classmethod
     def apply_threshold(self, heatmap, threshold):
         heatmap[heatmap <= threshold] = 0
         return heatmap
 
-
-
+    @classmethod
     def draw_labeled_bboxes(self, main_img, labels):
         img = main_img.copy()
         for car_number in range(1, labels[1]+1):
@@ -147,8 +143,7 @@ class FeatureExtractor(object):
             cv2.rectangle(img, bbox[0], bbox[1], (0,0,255), 6)
         return img
 
-
-
+    @classmethod
     def find_boxes(self, main_img, bbox_list, threshold=2):
         img = main_img.copy()
         heatmap = FeatureExtractor.apply_threshold(FeatureExtractor.add_heat(img.copy(), bbox_list),
