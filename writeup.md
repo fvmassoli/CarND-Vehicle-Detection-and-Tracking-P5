@@ -28,14 +28,14 @@ The goals / steps of this project are the following:
 
 ### Histogram of Oriented Gradients (HOG)
 
-#### 1-2. Explain how (and identify where in your code) you extracted HOG features from the training images.
+#### 1 & 2. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-In order to properly extract HOG features I did several tests considering different color spaces and color channels, separately. I also tested different values for parameters such as pixels per cell and celss per block. 
+In order to properly extract HOG features I did several tests considering different color spaces and color channels, separately. I also tested different values for parameters such as pixels per cell and cells per block. 
 
 I got the best results by using all the channels in the YUV color space and following the suggestions from the lessons I used 9 HOG orientations, 8 pixels per cell and 2 cells per block. The chosen value for the parameter are shown in the cell 3 of the IPython notebook. 
 
 From cell 4 to cell 7 I implemented the code that extracts and normalize the feature vector of the images.
-The implementation of the methods used to exatrct the features is located into the FeatureExtractor.py that contains a class named FeatureExtractor.
+The implementation of the methods used to extract the features is located into the FeatureExtractor.py that contains a class named FeatureExtractor.
 
 In particular the "main" method of the class is get_features(). It relies upon the calls to other three methods of the class: get_hog_features(), get_color_hist() and get_bin_spatial(). The get_features() then combines the return values from the previous three methods and returns the feature vector of the image.
 
@@ -50,7 +50,7 @@ Below there is an example of the HOG images extracted from a vehicle and non-veh
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
 In the cells 12 and 13 of the IPython notebook there is the implementation of the training of the classifier. 
-The training and test sets contains 70% and 30%, respectively, of the input images. The final accuravy of the classifier is 99%.
+The training and test sets contains 70% and 30%, respectively, of the input images. The final accuracy of the classifier is 99%.
 
 
 ### Sliding Window Search
@@ -58,7 +58,7 @@ The training and test sets contains 70% and 30%, respectively, of the input imag
 #### 1-2. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 #### Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-In order to look into the portion of the image where a car is expexted to be I didn't consider the top 400 pixels and left 300 pixels of the image. That trick also makes the algorithm faster since it deals with fewer windows.
+In order to look into the portion of the image where a car is expected to be I didn't consider the top 400 pixels and left 300 pixels of the image. That trick also makes the algorithm faster since it deals with fewer windows.
 
 Once I had the image ROI I considered all the possible 64x64 windows with 32x32 stride.
 
@@ -72,12 +72,12 @@ Below there is an example.
 
 Then, for each window in the above images, the algorithm predicts if it is a vehicle image or not. 
 
-The input image has been then resized few times and the previous procedure has been repeated on each image size. This allows to recognize vehicles of different sizes (i.e. vehicles that are closed or far away form us). Summing all the "positive" windows, the following output is produced (cell 14 of the notebook).
+The input image has been then resized few times and the previous procedure has been repeated on each image size. This allows to recognize vehicles of different sizes (i.e. vehicles that are closed or far away from us). Summing all the "positive" windows, the following output is produced (cell 14 of the notebook).
 
 ![alt text][image7]
 
 
-In order to decrease the number of false positives, I analysed the images using heat maps. The procedure is pretty straightforward. First I create a zero mask for the image. Then for each box found in the previous step I increased by one the value of the pixels in the mask. The final step is to apply a threshold to the mask. This procedure really helps the algortihm in reducing the probability of false positive.
+In order to decrease the number of false positives, I analysed the images using heat maps. The procedure is pretty straightforward. First I create a zero mask for the image. Then for each box found in the previous step I increased by one the value of the pixels in the mask. The final step is to apply a threshold to the mask. This procedure really helps the algorithm in reducing the probability of false positive.
 
 At the end, I used scipy labels method to create final mask and take this labels as final bounding boxes. The bounding boxes are drawn on original images. 
 
